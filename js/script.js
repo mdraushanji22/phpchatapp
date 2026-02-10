@@ -46,18 +46,14 @@ $(document).ready(function() {
         const bgClass = isSender ? 'bg-primary text-white' : 'bg-light border';
         const alignClass = isSender ? 'ms-auto' : 'me-auto';
         const usernameColor = isSender ? 'text-white-50' : 'text-primary';
-        const timeColor = isSender ? 'text-white-50' : 'text-muted';
 
         const messageHTML = `
             <div class="message p-2">
                 <div class="d-flex ${isSender ? 'justify-content-end' : 'justify-content-start'}">
                     <div class="message-bubble ${bgClass} ${alignClass} rounded-3 p-3 mb-2 shadow-sm" style="max-width: 75%;">
-                        <div class="message-header d-flex justify-content-between align-items-center mb-1">
+                        <div class="message-header mb-1">
                             <span class="username fw-bold ${usernameColor}" style="font-size: 0.85rem;">
                                 ${escapeHtml(data.name)}
-                            </span>
-                            <span class="time ms-2 ${timeColor}" style="font-size: 0.75rem;">
-                                ${data.time}
                             </span>
                         </div>
                         <div class="message-text" style="word-wrap: break-word;">${escapeHtml(data.message)}</div>

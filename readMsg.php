@@ -37,28 +37,18 @@ if ($rq = mysqli_query($db, $q)) {
         $isSender = ($data["phone"] == $currentPhone);
         $displayName = htmlspecialchars($data["uname"]);
         $messageText = htmlspecialchars($data["msg"]);
-        // Handle time display based on available column
-        if ($hasCreatedAt && isset($data["created_at"]) && $data["created_at"]) {
-            $time = date('H:i', strtotime($data["created_at"]));
-        } else {
-            $time = date('H:i'); // Current time as fallback
-        }
         
         // Bootstrap styled message bubble
         $bgClass = $isSender ? 'bg-primary text-white' : 'bg-light border';
         $alignClass = $isSender ? 'ms-auto' : 'me-auto';
         $usernameColor = $isSender ? 'text-white-50' : 'text-primary';
-        $timeColor = $isSender ? 'text-white-50' : 'text-muted';
 ?>
 <div class="message p-2">
     <div class="d-flex <?= $isSender ? 'justify-content-end' : 'justify-content-start' ?>">
         <div class="message-bubble <?= $bgClass ?> <?= $alignClass ?> rounded-3 p-3 mb-2 shadow-sm" style="max-width: 75%;">
-            <div class="message-header d-flex justify-content-between align-items-center mb-1">
+            <div class="message-header mb-1">
                 <span class="username fw-bold <?= $usernameColor ?>" style="font-size: 0.85rem;">
                     <?= $displayName ?>
-                </span>
-                <span class="time ms-2 <?= $timeColor ?>" style="font-size: 0.75rem;">
-                    <?= $time ?>
                 </span>
             </div>
             <div class="message-text" style="word-wrap: break-word;"><?= $messageText ?></div>

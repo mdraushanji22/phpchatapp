@@ -58,8 +58,7 @@ if (mysqli_num_rows($rq) == 1) {
             $data = [
                 'phone' => $phone,
                 'name' => $userName,
-                'message' => $msg,
-                'time' => date('H:i')
+                'message' => $msg
             ];
             $pusher->trigger('chat-channel', 'new-message', $data);
         } catch (Exception $e) {
