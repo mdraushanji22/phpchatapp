@@ -2,53 +2,55 @@
 include "db.php";
 session_start();
 
-if(isset($_POST["name"]) && isset($_POST["phone"])){
-  
-  $name=$_POST["name"];
-  $phone=$_POST["phone"];
+if (isset($_POST["name"]) && isset($_POST["phone"])) {
 
-  $q="SELECT * FROM `users` WHERE uname='$name' && phone='$phone'";
-  
-  if($rq=mysqli_query($db,$q)){
+    $name = trim($_POST["name"]);
+    $phone = trim($_POST["phone"]);
 
-    if(mysqli_num_rows($rq)==1){
-      
-      $_SESSION["userName"]=$name;
-      $_SESSION["phone"]=$phone;
-      header("location: index.php");
+    // Validation
+    if (empty($name) || empty($phone)) {
+        echo "<script>alert('Name and phone are required!')</script>";
+    } elseif (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $name)) {
+        echo "<script>alert('Username must be 3-20 characters, alphanumeric only!')</script>";
+    } elseif (!preg_match('/^[0-9]{7,15}$/', $phone)) {
+        echo "<script>alert('Phone number must be 7-15 digits!')</script>";
+    } else {
+        // Check if user exists with both name and phone
+        $stmt = mysqli_prepare($db, "SELECT * FROM `users` WHERE uname = ? AND phone = ?");
+        mysqli_stmt_bind_param($stmt, "ss", $name, $phone);
+        mysqli_stmt_execute($stmt);
+        $rq = mysqli_stmt_get_result($stmt);
 
+        if (mysqli_num_rows($rq) == 1) {
+            $_SESSION["userName"] = $name;
+            $_SESSION["phone"] = $phone;
+            header("location: index.php");
+            exit();
+        } else {
+            // Check if phone is taken by another user
+            $stmt = mysqli_prepare($db, "SELECT * FROM `users` WHERE phone = ?");
+            mysqli_stmt_bind_param($stmt, "s", $phone);
+            mysqli_stmt_execute($stmt);
+            $rq = mysqli_stmt_get_result($stmt);
 
+            if (mysqli_num_rows($rq) == 1) {
+                echo "<script>alert('" . htmlspecialchars($phone) . " is already taken by another person')</script>";
+            } else {
+                // Create new user
+                $stmt = mysqli_prepare($db, "INSERT INTO `users`(`uname`, `phone`) VALUES (?, ?)");
+                mysqli_stmt_bind_param($stmt, "ss", $name, $phone);
 
-    }else{
-
-
-      $q="SELECT * FROM `users` WHERE phone='$phone'";
-      if($rq=mysqli_query($db,$q)){
-        if(mysqli_num_rows($rq)==1){
-          echo "<script>alert($phone+' is already taken by another person')</script>";
-        }else{
-
-          $q="INSERT INTO `users`(`uname`, `phone`) VALUES ('$name','$phone')";
-          if($rq=mysqli_query($db,$q)){
-            $q="SELECT * FROM `users` WHERE uname='$name' && phone='$phone'";
-            if($rq=mysqli_query($db,$q)){
-              if(mysqli_num_rows($rq)==1){
-
-                $_SESSION["userName"]=$name;
-                $_SESSION["phone"]=$phone;
-                header("location: index.php");
-
-              }
+                if (mysqli_stmt_execute($stmt)) {
+                    $_SESSION["userName"] = $name;
+                    $_SESSION["phone"] = $phone;
+                    header("location: index.php");
+                    exit();
+                } else {
+                    echo "<script>alert('Registration failed. Please try again.')</script>";
+                }
             }
-
-          }
-
         }
-      }
     }
-  }
-
-
 }
 
 
