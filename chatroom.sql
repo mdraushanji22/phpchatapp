@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `msg` (
   `id` int(11) NOT NULL,
   `phone` varchar(100) NOT NULL,
-  `msg` varchar(400) NOT NULL
+  `msg` varchar(400) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

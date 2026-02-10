@@ -1,79 +1,131 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: system-ui;
-}
-body{
-  display: grid;
-  place-content: center;
-  min-height: 100vh;
-  background-color: #171747;
-}
-h1{
-  color: white;
-  font-family: cursive;
-  text-align: center;
-  font-size: 3rem;
-}
-.chat{
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-}
-.chat h2{
-  font-size: 2rem;
-  font-family: cursive;
-  text-align: center;
-}
-.msg{
-  width: 420px;
-  height: 480px;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-  margin: 1rem auto;
-  padding: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  
-  overflow-y: scroll;
-  
-}
-::-webkit-scrollbar {
-  width: 0px;
-}
-.input_msg{
-  display: flex;
-  justify-content: space-between;
-}
-input{
-  width: 70%;
-  font-size: 1.3rem;
-  padding: 0.4rem 1.3rem
-}
-.input_msg button{
-  background-color: #171747;
-  color: white;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 1.2rem;
-  font-size: 1.3rem;
-  border-radius: 5px;
+/**
+ * ChatRoom Application - Main Stylesheet
+ * Compatible with Bootstrap 5.3
+ */
+
+/* Custom scrollbar for chat */
+#msg-container::-webkit-scrollbar {
+    width: 6px;
 }
 
-.msg p{
-  background-color: rgb(194, 192, 192);
-  padding: 0.4rem 1rem;
-  width: fit-content;
-  border-radius: 5px;
-  margin-bottom: 1rem;
+#msg-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
 }
-.msg p span{
-  display: block;
-  font-weight: bold;
-  opacity: 0.5;
+
+#msg-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
 }
-.msg .sender{
-  background-color: rgb(89, 255, 89);
-  align-self: end;
+
+#msg-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Message bubble animations */
+.message-bubble {
+    animation: slideIn 0.3s ease-out;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message-bubble:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sender message styling */
+.message.sender .message-bubble {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+/* Empty chat styling */
+.empty-chat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #6c757d;
+}
+
+.empty-chat h3 {
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Input focus effects */
+#input_msg:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Character counter */
+#char-count {
+    transition: color 0.3s ease;
+}
+
+/* Navbar customization */
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+/* Card hover effect */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Button loading state */
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .message-bubble {
+        max-width: 85% !important;
+    }
+    
+    .card-body {
+        padding: 1rem !important;
+    }
+}
+
+/* Connection status indicator (optional) */
+.connection-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.connection-status.connected {
+    background-color: #198754;
+    box-shadow: 0 0 5px #198754;
+}
+
+.connection-status.disconnected {
+    background-color: #dc3545;
+}
+
+/* Loading spinner in button */
+.btn .spinner-border {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
 }

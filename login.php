@@ -62,26 +62,122 @@ if (isset($_POST["name"]) && isset($_POST["phone"])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChatRoom</title>
+  <title>ChatRoom - Login</title>
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/login.css">
 </head>
-<body>
-  <h1>ChatRoom</h1>
-  <div class="login">
-    <h2>Login</h2>
-    <p>This ChatRoom is the best example to demonstrate the concept of ChatBot and it's completely for begginners.</p>
-    <form action="" method="post">
+<body class="bg-gradient-primary">
+  <div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+      <div class="col-md-5 col-lg-4">
+        <!-- Login Card -->
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-5">
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <i class="bi bi-chat-dots-fill text-primary display-4"></i>
+              <h2 class="mt-3 mb-1">ChatRoom</h2>
+              <p class="text-muted small">Real-time messaging made simple</p>
+            </div>
 
-      <h3>UserName</h3>
-      <input type="text" placeholder="Short Name" name="name">
+            <!-- Form -->
+            <form action="" method="post" id="loginForm" novalidate>
+              <!-- Username Field -->
+              <div class="mb-3">
+                <label for="name" class="form-label fw-semibold">
+                  <i class="bi bi-person-fill me-1"></i>Username
+                </label>
+                <input type="text" 
+                       class="form-control form-control-lg" 
+                       id="name" 
+                       name="name" 
+                       placeholder="Enter username (3-20 chars)"
+                       pattern="[a-zA-Z0-9_]{3,20}"
+                       required>
+                <div class="form-text">Alphanumeric and underscore only</div>
+              </div>
 
-      <h3>Mobile No:</h3>
-      <input type="number" placeholder="with country code" min="1111111" max="999999999999999" name="phone">
+              <!-- Phone Field -->
+              <div class="mb-4">
+                <label for="phone" class="form-label fw-semibold">
+                  <i class="bi bi-phone-fill me-1"></i>Mobile Number
+                </label>
+                <input type="tel" 
+                       class="form-control form-control-lg" 
+                       id="phone" 
+                       name="phone" 
+                       placeholder="Enter phone number"
+                       pattern="[0-9]{7,15}"
+                       required>
+                <div class="form-text">7-15 digits, no country code needed</div>
+              </div>
 
-      <button>Login / Register</button>
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Login / Register
+                </button>
+              </div>
+            </form>
 
-    </form>
+            <!-- Footer -->
+            <div class="text-center mt-4">
+              <small class="text-muted">
+                New user? We'll create an account for you automatically.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card mt-3 border-0 bg-transparent">
+          <div class="card-body text-center text-white">
+            <p class="mb-0 small">
+              <i class="bi bi-shield-check me-1"></i>
+              Secure messaging with end-to-end encryption
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery 3.7.1 -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      // Form validation
+      $('#loginForm').on('submit', function(e) {
+        const name = $('#name').val().trim();
+        const phone = $('#phone').val().trim();
+        
+        if (!name || !phone) {
+          e.preventDefault();
+          alert('Please fill in all fields');
+          return false;
+        }
+        
+        if (!/^[a-zA-Z0-9_]{3,20}$/.test(name)) {
+          e.preventDefault();
+          alert('Username must be 3-20 alphanumeric characters');
+          return false;
+        }
+        
+        if (!/^[0-9]{7,15}$/.test(phone)) {
+          e.preventDefault();
+          alert('Phone number must be 7-15 digits');
+          return false;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
