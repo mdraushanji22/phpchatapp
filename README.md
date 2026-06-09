@@ -154,4 +154,5 @@ $pusher = new Pusher\Pusher(
 ## License
 
 This project is open source and available for educational purposes.
-## This is chatting website using php
+## This is chatting website using
+Comunication with each other
