@@ -156,3 +156,4 @@ $pusher = new Pusher\Pusher(
 This project is open source and available for educational purposes.
 ## This is chatting website using
 Comunication with each other
+this is full stack chat app
